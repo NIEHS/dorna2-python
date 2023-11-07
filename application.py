@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from dorna2 import Dorna
 import json
 import time
+import socket
 
 
 # create the Dorna object
@@ -183,12 +184,16 @@ def connect():
 
     if request.method == 'POST':
         if request.form.get('controlRobot') == 'connectButton':
-            robot = Dorna()
-            connected = robot.connect(host="192.168.1.101", port=443)
-            if connected:
+            #robot = Dorna()
+            #connected = robot.connect(host="192.168.1.101", port=443)
+            data_to_send = "Connect to Epson Robot"
+            send_data_to_csharp(data_to_send)
+            session['log_message'] = 'Robot connected successfully'
+            
+            """if connected:
                 session['log_message'] = 'Robot connected successfully'
             else:
-                session['log_message'] = 'Could not connect to robot'
+                session['log_message'] = 'Could not connect to robot'"""
 
         
         elif request.form.get('controlRobot') == 'powerOnButton':
@@ -247,6 +252,13 @@ def connect():
 
     return redirect(url_for('index'))
 
+def send_data_to_csharp(data):
+    host = "127.0.0.1"  # IP address of the C# application (localhost)
+    port = 12345  # Port on which the C# application is listening
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((host, port))
+        s.sendall(data.encode())
 
 
 # Run the Flask application
