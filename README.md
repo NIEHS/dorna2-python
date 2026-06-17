@@ -1,3 +1,11 @@
+
+
+This repository has been archived and is no longer maintained.
+The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.
+It should not be used in production systems.
+
+
+
 # Dorna 2 Python API
 This is the Python API tutorial for [Dorna][dorna] robotic arm.
 
